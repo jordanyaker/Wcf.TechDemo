@@ -1,0 +1,89 @@
+﻿namespace TechDemo.Configuration.Default {
+    using System;
+    using TechDemo.IoC;
+    using TechDemo.State;
+    using TechDemo.State.Default;
+    using TechDemo.State.Http;
+
+    /// <summary>
+    /// Default implementation of <see cref="IStateConfiguration"/> that allows configuring
+    /// state storage.
+    /// </summary>
+    public class DefaultStateConfiguration : IStateConfiguration {
+        Type _customCacheType;
+        Type _customSessionType;
+        Type _customLocalStateType;
+        Type _customApplicationStateType;
+
+        /// <summary>
+        /// Instructs the application to use the custom <see cref="ICacheState"/> type as the cache storage.
+        /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ICacheState"/> interface.</typeparam>
+        /// <returns>The <see cref="DefaultStateConfiguration"/> instance.</returns>
+        public DefaultStateConfiguration UseCustomCacheOf<T>() where T : ICacheState {
+            _customCacheType = typeof(T);
+            return this;
+        }
+
+        /// <summary>
+        /// Instructs the application to use a custom <see cref="ISessionState"/> type as the session state storage.
+        /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ISessionState"/> interface.</typeparam>
+        /// <returns>The <see cref="DefaultStateConfiguration"/> instance</returns>
+        public DefaultStateConfiguration UseCustomSessionStateOf<T>() where T : ISessionState {
+            _customSessionType = typeof(T);
+            return this;
+        }
+
+        /// <summary>
+        /// Instructs the application to use a custom <see cref="ILocalState"/> type as the local state storage.
+        /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="ILocalState"/> interface.</typeparam>
+        /// <returns>The <see cref="DefaultStateConfiguration"/> instance.</returns>
+        public DefaultStateConfiguration UseCustomLocalStateOf<T>() where T : ILocalState {
+            _customLocalStateType = typeof(T);
+            return this;
+        }
+
+        /// <summary>
+        /// Instructs the application to use a custom <see cref="IApplicationState"/> type as the application stage storage.
+        /// </summary>
+        /// <typeparam name="T">A type that implements the <see cref="IApplicationState"/> interface.</typeparam>
+        /// <returns>The <see cref="DefaultStateConfiguration"/> instance.</returns>
+        public DefaultStateConfiguration UseCustomApplicationStateOf<T>() where T : IApplicationState {
+            _customApplicationStateType = typeof(T);
+            return this;
+        }
+
+        /// <summary>
+        /// Called  <see cref="Configure"/> to configure state storage.
+        /// </summary>
+        /// <param name="containerAdapter">The <see cref="IContainerAdapter"/> instance that can be
+        /// used to register state storage components.</param>
+        public void Configure(IContainerAdapter containerAdapter) {
+            if (_customSessionType != null)
+                containerAdapter.Register(typeof(ISessionState), _customSessionType);
+            else {
+                containerAdapter.Register<ISessionStateSelector, DefaultSessionStateSelector>();
+                containerAdapter.Register<ISessionState, SessionStateWrapper>();
+            }
+
+            if (_customLocalStateType != null)
+                containerAdapter.Register(typeof(ILocalState), _customLocalStateType);
+            else {
+                containerAdapter.Register<ILocalStateSelector, DefaultLocalStateSelector>();
+                containerAdapter.Register<ILocalState, LocalStateWrapper>();
+            }
+            if (_customCacheType != null)
+                containerAdapter.Register(typeof(ICacheState), _customCacheType);
+            else
+                containerAdapter.Register<ICacheState, HttpRuntimeCache>();
+            if (_customApplicationStateType != null)
+                containerAdapter.RegisterSingleton(typeof(IApplicationState), _customApplicationStateType);
+            else
+                containerAdapter.RegisterSingleton<IApplicationState, ApplicationState>();
+
+            containerAdapter.Register<IState, State.Impl.State>();
+        }
+    }
+}
