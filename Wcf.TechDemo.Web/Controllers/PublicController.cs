@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace Wcf.TechDemo.Web.Controllers
 {
-    public class HomeController : Controller
+    public class PublicController : Controller
     {
         //
         // GET: /Home/
 
-        public ActionResult Index()
+        public ActionResult Landing()
         {
             return View();
         }

@@ -1,11 +1,23 @@
 ﻿namespace TechDemo.Web {
+    using System.Reflection;
+    using System.Web.Mvc;
+    using Autofac;
+    using Autofac.Configuration;
+    using Autofac.Integration.Mvc;
+    using Microsoft.Practices.ServiceLocation;
     using TechDemo.Bootstrapper;
-
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
+    using TechDemo.IoC.Autofac;
 
     public class MvcApplication : System.Web.HttpApplication {
         protected void Application_Start() {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new ConfigurationSettingsReader("autofac"));
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));
+
             BootstrapManager.Run();
         }
     }

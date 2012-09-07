@@ -1,6 +1,8 @@
 ﻿namespace TechDemo.Bootstrapper {
     using System;
     using Microsoft.Practices.ServiceLocation;
+    using System.Configuration;
+    using TechDemo.IoC;
 
     /// <summary>
     /// A bootstrapper utility class that will handle the execution of startup tasks.

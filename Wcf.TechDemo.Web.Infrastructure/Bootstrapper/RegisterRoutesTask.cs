@@ -1,7 +1,6 @@
-﻿namespace TechDemo.Web.Bootstrapper {
+﻿namespace TechDemo.Bootstrapper {
     using System.Web.Mvc;
     using System.Web.Routing;
-    using TechDemo.Bootstrapper;
 
     public class RegisterRoutesTask : IBootstrapperTask {
         private readonly RouteCollection _routes;

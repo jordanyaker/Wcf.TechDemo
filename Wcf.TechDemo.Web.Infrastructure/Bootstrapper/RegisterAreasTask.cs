@@ -1,6 +1,5 @@
-﻿namespace TechDemo.Web.Bootstrapper {
+﻿namespace TechDemo.Bootstrapper {
     using System.Web.Mvc;
-    using TechDemo.Bootstrapper;
 
     public class RegisterAreasTask : IBootstrapperTask {
         public void Execute() {
