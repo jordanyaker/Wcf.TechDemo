@@ -16,5 +16,8 @@ namespace Wcf.TechDemo.Web.Controllers
             return View();
         }
 
+        public ActionResult About() {
+            return View();
+        }
     }
 }
