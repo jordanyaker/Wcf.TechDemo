@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Service Layer", "2 - Se
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Account Management", "1 - Account Management", "{F4202E37-5AFD-4315-AF1E-49BD264301B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "- Unit Testing", "- Unit Testing", "{6F9CF2FA-D2A9-4FF7-985C-EC2D76D385A6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Unit Testing", "99 - Unit Testing", "{6F9CF2FA-D2A9-4FF7-985C-EC2D76D385A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Presentation Layer", "3 - Presentation Layer", "{D3725E94-A34D-46C3-83F0-CE2069820951}"
 EndProject
